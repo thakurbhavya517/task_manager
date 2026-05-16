@@ -76,8 +76,9 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 DATABASES = {
     'default': dj_database_url.config(
-        default="mysql://3DUv4s273XuSfjt.root:<PASSWORD>@gateway01.ap-southeast-1.prod.alicloud.tidbcloud.com:4000/sys",
-        conn_max_age=600
+        default=os.environ.get("DATABASE_URL"),
+        conn_max_age=600,
+        ssl_require=True
     )
 }
 
