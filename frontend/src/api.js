@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+const baseURL = import.meta.env.PROD ? '/api/' : 'http://localhost:8000/api/';
+
 const api = axios.create({
-    baseURL: 'http://localhost:8000/api/',
+    baseURL: baseURL,
 });
 
 api.interceptors.request.use((config) => {
@@ -21,7 +23,8 @@ api.interceptors.response.use(
             const refreshToken = localStorage.getItem('refresh_token');
             if (refreshToken) {
                 try {
-                    const response = await axios.post('http://localhost:8000/api/auth/token/refresh/', {
+                    const refreshUrl = import.meta.env.PROD ? '/api/auth/token/refresh/' : 'http://localhost:8000/api/auth/token/refresh/';
+                    const response = await axios.post(refreshUrl, {
                         refresh: refreshToken
                     });
                     localStorage.setItem('access_token', response.data.access);
